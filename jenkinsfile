@@ -1,0 +1,66 @@
+pipeline {
+  agent any
+
+  triggers {
+    pollSCM(
+      delay: 5
+    )
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        echo 'Building code using Maven (replace with your build tool)'
+      }
+    }
+    stage('Unit and Integration Tests') {
+      steps {
+        echo 'Running unit tests with JUnit (replace with your tool)'
+        echo 'Running integration tests with (replace with your tool)'
+        post {
+          always {
+            sendMail(
+              body: 'Unit and Integration Tests - ${currentBuild.result}',
+              subject: 'Jenkins Pipeline - Unit and Integration Tests Results',
+              recipient: 'd4afnan@gmail.com',
+            )
+          }
+        }
+      }
+    }
+    stage('Code Analysis') {
+      steps {
+        echo 'Running code analysis with SonarQube (replace with your tool)'
+      }
+    }
+    stage('Security Scan') {
+      steps {
+        echo 'Running security scan with SAST tool (replace with your tool)'
+        post {
+          always {
+            sendMail(
+              body: 'Security Scan - ${currentBuild.result}',
+              subject: 'Jenkins Pipeline - Security Scan Results',
+              recipient: 'd4afnan@gmail.com',
+            )
+          }
+        }
+      }
+    }
+    stage('Deploy to Staging') {
+      steps {
+        echo 'Deploying application to Staging server'
+      }
+    }
+    stage('Integration Tests on Staging') {
+      steps {
+        echo 'Running integration tests on Staging environment'
+      }
+    }
+    stage('Deploy to Production') {
+      steps {
+        echo 'Deploying application to Production server'
+      }
+    }
+  }
+}
