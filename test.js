@@ -1,2 +1,2 @@
 //test file for jenkins
-//testing pipelines
+//testing pipelines emails
