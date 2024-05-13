@@ -10,13 +10,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo 'Building code using Maven (replace with your build tool)'
+        echo 'Building code using Maven'
       }
     }
     stage('Unit and Integration Tests') {
       steps {
-        echo 'Running unit tests with JUnit (replace with your tool)'
-        echo 'Running integration tests with (replace with your tool)'
+        echo 'Running unit tests with JUnit'
+        echo 'Running integration tests with'
         post {
           always {
             sendMail(
@@ -30,12 +30,12 @@ pipeline {
     }
     stage('Code Analysis') {
       steps {
-        echo 'Running code analysis with SonarQube (replace with your tool)'
+        echo 'Running code analysis with SonarQube'
       }
     }
     stage('Security Scan') {
       steps {
-        echo 'Running security scan with SAST tool (replace with your tool)'
+        echo 'Running security scan with SAST tool'
         post {
           always {
             sendMail(
