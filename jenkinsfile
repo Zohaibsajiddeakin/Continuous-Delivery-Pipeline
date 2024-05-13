@@ -2,9 +2,7 @@ pipeline {
   agent any 
 
   triggers {
-    pollSCM(
-      delay: 5
-    )
+    pollSCM(scmpoll_spec: 'H/5 * * * *')
   }
 
   stages {
@@ -12,19 +10,28 @@ pipeline {
       steps {
         echo 'Building code using Maven'
       }
+      post {
+        always {
+          emailext (
+            body: 'Build - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Build Results',
+            to: 'd4afnan@gmail.com',
+          )
+        }
+      }
     }
     stage('Unit and Integration Tests') {
       steps {
         echo 'Running unit tests with JUnit'
-        echo 'Running integration tests with'
-        post {
-          always {
-            sendMail(
-              body: 'Unit and Integration Tests - ${currentBuild.result}',
-              subject: 'Jenkins Pipeline - Unit and Integration Tests Results',
-              recipient: 'd4afnan@gmail.com',
-            )
-          }
+        echo 'Running integration tests'
+      }
+      post {
+        always {
+          emailext (
+            body: 'Unit and Integration Tests - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Unit and Integration Tests Results',
+            to: 'd4afnan@gmail.com',
+          )
         }
       }
     }
@@ -32,18 +39,27 @@ pipeline {
       steps {
         echo 'Running code analysis with SonarQube'
       }
+      post {
+        always {
+          emailext (
+            body: 'Code Analysis - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Code Analysis Results',
+            to: 'd4afnan@gmail.com',
+          )
+        }
+      }
     }
     stage('Security Scan') {
       steps {
         echo 'Running security scan with SAST tool'
-        post {
-          always {
-            sendMail(
-              body: 'Security Scan - ${currentBuild.result}',
-              subject: 'Jenkins Pipeline - Security Scan Results',
-              recipient: 'd4afnan@gmail.com',
-            )
-          }
+      }
+      post {
+        always {
+          emailext (
+            body: 'Security Scan - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Security Scan Results',
+            to: 'd4afnan@gmail.com',
+          )
         }
       }
     }
@@ -51,15 +67,42 @@ pipeline {
       steps {
         echo 'Deploying application to Staging server'
       }
+      post {
+        always {
+          emailext (
+            body: 'Deploy to Staging - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Deploy to Staging Results',
+            to: 'd4afnan@gmail.com',
+          )
+        }
+      }
     }
     stage('Integration Tests on Staging') {
       steps {
         echo 'Running integration tests on Staging environment'
       }
+      post {
+        always {
+          emailext (
+            body: 'Integration Tests on Staging - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Integration Tests on Staging Results',
+            to: 'd4afnan@gmail.com',
+          )
+        }
+      }
     }
     stage('Deploy to Production') {
       steps {
         echo 'Deploying application to Production server'
+      }
+      post {
+        always {
+          emailext (
+            body: 'Deploy to Production - ${currentBuild.result}',
+            subject: 'Jenkins Pipeline - Deploy to Production Results',
+            to: 'd4afnan@gmail.com',
+          )
+        }
       }
     }
   }
