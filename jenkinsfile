@@ -10,15 +10,6 @@ pipeline {
       steps {
         echo 'Building code using Maven'
       }
-      post {
-        always {
-          emailext (
-            body: 'Build - ${currentBuild.result}',
-            subject: 'Jenkins Pipeline - Build Results',
-            to: 'd4afnan@gmail.com',
-          )
-        }
-      }
     }
     stage('Unit and Integration Tests') {
       steps {
@@ -39,15 +30,6 @@ pipeline {
       steps {
         echo 'Running code analysis with SonarQube'
       }
-      post {
-        always {
-          emailext (
-            body: 'Code Analysis - ${currentBuild.result}',
-            subject: 'Jenkins Pipeline - Code Analysis Results',
-            to: 'd4afnan@gmail.com',
-          )
-        }
-      }
     }
     stage('Security Scan') {
       steps {
@@ -67,44 +49,16 @@ pipeline {
       steps {
         echo 'Deploying application to Staging server'
       }
-      post {
-        always {
-          emailext (
-            body: 'Deploy to Staging - ${currentBuild.result}',
-            subject: 'Jenkins Pipeline - Deploy to Staging Results',
-            to: 'd4afnan@gmail.com',
-          )
-        }
-      }
     }
     stage('Integration Tests on Staging') {
       steps {
         echo 'Running integration tests on Staging environment'
-      }
-      post {
-        always {
-          emailext (
-            body: 'Integration Tests on Staging - ${currentBuild.result}',
-            subject: 'Jenkins Pipeline - Integration Tests on Staging Results',
-            to: 'd4afnan@gmail.com',
-          )
-        }
       }
     }
     stage('Deploy to Production') {
       steps {
         echo 'Deploying application to Production server'
       }
-      post {
-        always {
-          emailext (
-            body: 'Deploy to Production - ${currentBuild.result}',
-            subject: 'Jenkins Pipeline - Deploy to Production Results',
-            to: 'd4afnan@gmail.com',
-          )
-        }
-      }
     }
   }
 }
- 
