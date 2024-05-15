@@ -60,5 +60,5 @@ pipeline {
         echo 'Deploying application to Production server'
       }
     }
-  }
+  } 
 }
